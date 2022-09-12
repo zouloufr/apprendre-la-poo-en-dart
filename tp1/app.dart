@@ -2,10 +2,14 @@
 import 'NE_PAS_TOUCHER/user_input.dart';
 
 void main() {
-  print("Bonjour!");
+  List<int> scoresList = [];
+  keyTab();
+  print("Hi there!");
   sayHi();
   String myName = askName();
-
+  for (var score in scoresList) {
+    print(score);
+  }
   bool exit = false;
   int choice = readInt("Please choose 1, 2 or 3:");
   do {
@@ -28,16 +32,16 @@ void main() {
     }
   } while (exit == false);
   sayHi(userName: myName);
-  int age = readInt("Quel est votre âge ?");
+  int age = readInt("What is your age?");
   if (age >= 18) {
-    print("Vous êtes majeur");
+    print("You're an adult");
   } else {
-    print("Vous êtes mineur");
+    print("You're a kid");
   }
 }
 
 void sayHi({String userName = "Nobody"}) {
-  print("Bonjour $userName");
+  print("Hi $userName :)");
 }
 
 String askName() {
@@ -48,4 +52,19 @@ String askName() {
     validUserName = (userName.length >= 3) && (userName.length <= 13);
   } while (validUserName == false);
   return userName;
+}
+
+void keyTab() {
+  Map<String, int> scoreList = {"Truc": 120, "Machin": 140};
+  scoreList.remove("Truc");
+  scoreList["Truc"] = 99;
+  scoreList["Truc"] = 126;
+  scoreList["Bidule"] = 130;
+  print(scoreList);
+
+  for (final item in scoreList.entries) {
+    final theKey = item.key;
+    final theValue = item.value;
+    print("$theKey : $theValue");
+  }
 }
