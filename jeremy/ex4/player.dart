@@ -1,37 +1,19 @@
 import 'NE_PAS_TOUCHER/user_input.dart';
 import 'dart:math';
 import 'bot.dart';
+import 'fighter.dart';
 import 'weapon.dart';
 import 'weapon_list_manager.dart';
 
-class Player {
+class Player extends Fighter {
   final String _nickname;
-  int _strength;
-  int _health;
+
   final WeaponListManager _weaponListManager = WeaponListManager();
   Weapon _weapon = Weapon("Pistolet", 1, 90);
 
-  Player(this._nickname, this._health, this._strength);
+  Player(this._nickname, {int strength = 1}) : super(strength, 100);
 
   String get nickname => _nickname;
-  int get strength => _strength;
-  int get health => _health;
-  bool get isAlive => health > 0;
-
-  set strength(int strength) {
-    _strength = max(0, strength);
-  }
-
-  set health(int health) {
-    _health = max(0, health);
-  }
-
-  static int rollDices(String who) {
-    final generator = Random();
-    final randomNumber = generator.nextInt(6) + 1 + generator.nextInt(6) + 1;
-    print("$who a lancé les dés et a obtenu la valeur $randomNumber");
-    return randomNumber;
-  }
 
   void display() {
     print("$nickname - ${health}% - Force : ${strength}");
@@ -56,7 +38,7 @@ class Player {
   void _attack(Bot bot) {
     final randomPercent = Random().nextInt(100) + 1;
     if (randomPercent <= _weapon.accuracy) {
-      final dicesValue = Player.rollDices(nickname);
+      final dicesValue = rollDices(nickname);
       final hitStrength = dicesValue * (strength + _weapon.power);
       print(
           "$nickname frappe le bot avec l'arme ${_weapon.name} et une force de $hitStrength");
@@ -84,5 +66,11 @@ class Player {
   void raiseHealth(double factor) {
     final gain = this.health * factor;
     this.health = min(100, this.health + gain.toInt());
+  }
+
+  @override
+  int rollDices(String who) {
+    print("Bonne chance");
+    return super.rollDices(who);
   }
 }

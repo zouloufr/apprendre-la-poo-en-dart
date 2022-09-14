@@ -5,12 +5,12 @@ import 'bot.dart';
 import 'player.dart';
 
 void main() {
-  final player = Player(readText("Entrez votre pseudo :"), 100, 1);
+  final player = Player(readText("Entrez votre pseudo :"), strength: 1);
   var actionCount = 0;
   var botCount = 0;
 
   while (player.isAlive) {
-    final b1 = Bot(max(1, player.strength - 1), 100);
+    final b1 = Bot(strength: max(1, player.strength - 1));
     print("Un bot se présente à vous et veut se battre...\n");
     var isItPlayerTurn = Random().nextBool();
     do {
