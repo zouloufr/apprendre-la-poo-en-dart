@@ -2,12 +2,14 @@ import 'NE_PAS_TOUCHER/user_input.dart';
 import 'dart:math';
 import 'bot.dart';
 import 'weapon.dart';
+import 'weapon_list_manager.dart';
 
 class Player {
   final String _nickname;
   int _strength;
   int _health;
-  Weapon _weapon = const Weapon("Batte de baseball", 5, 50);
+  final WeaponListManager _weaponListManager = WeaponListManager();
+  Weapon _weapon = Weapon("Pistolet", 1, 90);
 
   Player(this._nickname, this._health, this._strength);
 
@@ -66,12 +68,15 @@ class Player {
 
   void didWin(Bot bot) {
     this.strength += bot.strength;
-    const newWeapon = Weapon("Fusil", 25, 75);
-    final pickWeaponChoice = selectFromMenu(
-        "Le bot a laisse tombe une arme (${newWeapon.description}), tapez 1 pour la ramasser ou 2 pour garder votre arme actuelle (${_weapon.description})",
-        2);
-    if (pickWeaponChoice == 1) {
-      _weapon = newWeapon;
+    final newWeapon = _weaponListManager.getNextWeaponToLoot();
+
+    if (newWeapon != null) {
+      final pickWeaponChoice = selectFromMenu(
+          "Le bot a laisse tomber une arme (${newWeapon.description}), tapez 1 pour la ramasser ou 2 pour garder votre arme actuelle (${newWeapon.description})",
+          2);
+      if (pickWeaponChoice == 1) {
+        _weapon = newWeapon;
+      }
     }
     raiseHealth(0.9);
   }
