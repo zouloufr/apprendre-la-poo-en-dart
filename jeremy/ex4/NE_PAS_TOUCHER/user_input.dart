@@ -28,8 +28,9 @@ double readDouble(String question) {
 }
 
 int selectFromMenu(String message, int max) {
-  int userChoice = readInt(message);
+  int userChoice;
   do {
+    userChoice = readInt(message);
     if (userChoice < 1 || userChoice > max) {
       print("Veuillez choisir une valeur comprise entre 1 et $max");
     }

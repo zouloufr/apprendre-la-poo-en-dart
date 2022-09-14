@@ -1,16 +1,27 @@
 import 'NE_PAS_TOUCHER/user_input.dart';
 import 'dart:math';
 import 'bot.dart';
+import 'weapon.dart';
 
 class Player {
-  late String nickname;
-  late int strength;
-  late int health;
+  final String _nickname;
+  int _strength;
+  int _health;
+  Weapon _weapon = const Weapon("Batte de baseball", 5, 50);
+
+  Player(this._nickname, this._health, this._strength);
+
+  String get nickname => _nickname;
+  int get strength => _strength;
+  int get health => _health;
   bool get isAlive => health > 0;
 
-  Player(this.nickname, {this.health = 100, this.strength = 1});
-  Player.anonymous() {
-    Player("Unknown");
+  set strength(int strength) {
+    _strength = max(0, strength);
+  }
+
+  set health(int health) {
+    _health = max(0, health);
   }
 
   static int rollDices(String who) {
@@ -24,7 +35,7 @@ class Player {
     print("$nickname - ${health}% - Force : ${strength}");
   }
 
-  void attack(Bot bot) {
+  void attackOrRest(Bot bot) {
     int userChoice = 1;
     if (this.health < 40) {
       userChoice = selectFromMenu(
@@ -36,14 +47,32 @@ class Player {
       raiseHealth(0.75);
     } else {
       readText("Appuyez sur entrée pour lancer les dés et attaquer le bot");
+      _attack(bot);
+    }
+  }
+
+  void _attack(Bot bot) {
+    final randomPercent = Random().nextInt(100) + 1;
+    if (randomPercent <= _weapon.accuracy) {
       final dicesValue = Player.rollDices(nickname);
-      final hitStrength = dicesValue * strength;
+      final hitStrength = dicesValue * (strength + _weapon.power);
+      print(
+          "$nickname frappe le bot avec l'arme ${_weapon.name} et une force de $hitStrength");
       bot.health = bot.health - hitStrength;
+    } else {
+      print("$nickname frappe le sol !");
     }
   }
 
   void didWin(Bot bot) {
     this.strength += bot.strength;
+    const newWeapon = Weapon("Fusil", 25, 75);
+    final pickWeaponChoice = selectFromMenu(
+        "Le bot a laisse tombe une arme (${newWeapon.description}), tapez 1 pour la ramasser ou 2 pour garder votre arme actuelle (${_weapon.description})",
+        2);
+    if (pickWeaponChoice == 1) {
+      _weapon = newWeapon;
+    }
     raiseHealth(0.9);
   }
 
