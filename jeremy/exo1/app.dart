@@ -10,7 +10,8 @@ void main() {
   final currentPlayer = Player();
   currentPlayer.userName = readText("Quel est votre pseudo ?");
   int tourActuel = 1;
-  
+  currentPlayer.sayHi();
+
   do {
     int randomOrder;
     final generator = Random();
@@ -21,7 +22,7 @@ void main() {
       playerData(bot: bot1);
 
       attack("Bot", player: currentPlayer);
-      playerData(player: currentPlayer);  
+      playerData(player: currentPlayer);
     } else {
       attack("Bot", player: currentPlayer);
       playerData(player: currentPlayer);
@@ -29,7 +30,7 @@ void main() {
       attack(currentPlayer.userName, bot: bot1);
       playerData(bot: bot1);
     }
- 
+
     print("Fin du tour $tourActuel\n");
     tourActuel++;
   } while (bot1.health > 0 && currentPlayer.health > 0);
@@ -43,34 +44,37 @@ void main() {
     }
   }
 }
-void attack(String playerName, {Bot bot, Player player}){
+
+void attack(String playerName, {Bot bot, Player player}) {
   final dicesValue = rollDices(playerName);
   if (bot != null) {
     bot.health -= dicesValue;
   }
   if (player != null) {
-    player.health -= dicesValue;  
+    player.health -= dicesValue;
   }
-  
-  print("$playerName assène un coup sur ${player?.userName ?? "bot"} avec une force de $dicesValue");
+
+  print(
+      "$playerName assène un coup sur ${player?.userName ?? "bot"} avec une force de $dicesValue");
 }
 
-void playerData({Bot bot, Player player}){
+void playerData({Bot bot, Player player}) {
   if (player != null) {
-    print("${player.userName} - Santé ${player.health}%\n");  
+    print("${player.userName} - Santé ${player.health}%\n");
   }
   if (bot != null) {
-    print("Bot - Santé ${bot.health}%\n");  
+    print("Bot - Santé ${bot.health}%\n");
   }
 }
 
-int rollDices(String playerName){
+int rollDices(String playerName) {
   int randomNumber;
   final generator = Random();
   int min = 1;
   int max = 6;
-  randomNumber = min + generator.nextInt(max - min) + min + generator.nextInt(max - min);
-  
+  randomNumber =
+      min + generator.nextInt(max - min) + min + generator.nextInt(max - min);
+
   print("$playerName lance les dés... et a obtenu $randomNumber");
   return randomNumber;
 }

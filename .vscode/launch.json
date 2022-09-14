@@ -8,6 +8,13 @@
             "name": "Dart & Flutter",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "Dart (tp1/app.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "tp1/app.dart",
+            "console": "terminal"
         }
     ]
 }

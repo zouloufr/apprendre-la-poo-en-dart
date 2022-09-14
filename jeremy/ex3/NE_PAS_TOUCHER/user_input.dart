@@ -1,14 +1,14 @@
 import 'dart:io';
 
-String? readText(String question) {
+String readText(String question) {
   print(question);
-  return stdin.readLineSync();
+  return stdin.readLineSync()!;
 }
 
 int readInt(String question) {
   int? typedValue;
   do {
-    typedValue = int.tryParse(readText(question)!);
+    typedValue = int.tryParse(readText(question));
     if (typedValue == null) {
       print("Veuillez saisir un nombre entier valide.");
     }
@@ -19,10 +19,20 @@ int readInt(String question) {
 double readDouble(String question) {
   double? typedValue;
   do {
-    typedValue = double.tryParse(readText(question)!);
+    typedValue = double.tryParse(readText(question));
     if (typedValue == null) {
       print("Veuillez saisir un nombre réel valide.");
     }
   } while (typedValue == null);
   return typedValue;
+}
+
+int selectFromMenu(String message, int max) {
+  int userChoice = readInt(message);
+  do {
+    if (userChoice < 1 || userChoice > max) {
+      print("Veuillez choisir une valeur comprise entre 1 et $max");
+    }
+  } while (userChoice < 1 || userChoice > max);
+  return userChoice;
 }
