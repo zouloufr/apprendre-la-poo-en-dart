@@ -16,8 +16,8 @@ class Fighter {
     _health = max(0, health);
   }
 
-  void display() {
-    print("Bot - ${health}% - Force : ${strength}");
+  void display(String name) {
+    print("$name - ${health}% - Force : ${strength}");
   }
 
   int rollDices(String who) {

@@ -15,10 +15,6 @@ class Player extends Fighter {
 
   String get nickname => _nickname;
 
-  void display() {
-    print("$nickname - ${health}% - Force : ${strength}");
-  }
-
   void attackOrRest(Bot bot) {
     int userChoice = 1;
     if (this.health < 40) {

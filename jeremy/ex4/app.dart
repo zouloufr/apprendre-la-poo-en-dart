@@ -20,8 +20,8 @@ void main() {
         b1.attack(player);
       }
 
-      player.display();
-      b1.display();
+      player.display(player.nickname);
+      b1.display("Bot");
       actionCount++;
       print("Fin du tour $actionCount\n");
       isItPlayerTurn = !isItPlayerTurn;

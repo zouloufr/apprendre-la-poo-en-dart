@@ -13,8 +13,13 @@ class WeaponListManager {
   Weapon? getNextWeaponToLoot() {
     Weapon? nextWeapon;
     if (_nextWeaponIndex < _weaponList.length) {
-      nextWeapon = _weaponList[_nextWeaponIndex];
-      _nextWeaponIndex++;
+      try {
+        nextWeapon = _weaponList[_nextWeaponIndex];
+        _nextWeaponIndex++;
+      } on RangeError catch (e) {
+        print(
+            "Tableau max index : ${e.end! + 1} et demande : ${_nextWeaponIndex}");
+      } catch (e) {}
     }
     return nextWeapon;
   }
