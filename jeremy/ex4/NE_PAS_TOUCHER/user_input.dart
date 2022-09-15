@@ -5,6 +5,14 @@ String readText(String question) {
   return stdin.readLineSync()!;
 }
 
+String readTextWithMin(String question, {int minSize = 3}) {
+  String answer;
+  do {
+    answer = readText(question + " ($minSize caractères min.)");
+  } while (answer.length < minSize);
+  return answer;
+}
+
 int readInt(String question) {
   int? typedValue;
   do {

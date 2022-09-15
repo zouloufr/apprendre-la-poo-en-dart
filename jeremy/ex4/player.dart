@@ -7,6 +7,7 @@ import 'weapon_list_manager.dart';
 
 class Player extends Fighter {
   final String _nickname;
+  int _score = 0;
 
   final WeaponListManager _weaponListManager = WeaponListManager();
   Weapon _weapon = Weapon("Pistolet", 1, 90);
@@ -14,6 +15,7 @@ class Player extends Fighter {
   Player(this._nickname, {int strength = 1}) : super(strength, 100);
 
   String get nickname => _nickname;
+  int get score => _score;
 
   void attackOrRest(Bot bot) {
     int userChoice = 1;
@@ -47,6 +49,7 @@ class Player extends Fighter {
   void didWin(Bot bot) {
     this.strength += bot.strength;
     final newWeapon = _weaponListManager.getNextWeaponToLoot();
+    _score += 1;
 
     if (newWeapon != null) {
       final pickWeaponChoice = selectFromMenu(
@@ -62,6 +65,10 @@ class Player extends Fighter {
   void raiseHealth(double factor) {
     final gain = this.health * factor;
     this.health = min(100, this.health + gain.toInt());
+  }
+
+  void newLife() {
+    this.health = 100;
   }
 
   @override
